@@ -16,18 +16,18 @@ namespace ChaosInitiative.ScriptSystem.Core.Tests.Modules
             graph.Add(item1, dep1);
 
             // we should contain all the dependencies now
-            Assert.That(graph, Does.Contain(item1));
-            Assert.Contains(dep1, graph.GetDependencies(item1));
-            Assert.True(graph.GetDependencies(dep1).IsEmpty);
-            Assert.True(graph.GetDependents(item1).IsEmpty);
-            Assert.Contains(item1, graph.GetDependents(dep1));
+            Assert.That(graph, Has.One.EqualTo(item1));
+            Assert.That(graph.GetDependencies(dep1), Is.Empty);
+            Assert.That(graph.GetDependents(item1), Is.Empty);
+            Assert.That(graph.GetDependencies(item1), Does.Contain(dep1));
+            Assert.That(graph.GetDependents(dep1), Does.Contain(item1));
 
             // removing should fail with dependencies still in place
-            Assert.False(graph.Remove(dep1));
+            Assert.That(graph.Remove(dep1), Is.False);
 
             // but succeed after we remove all dependents
-            Assert.True(graph.Remove(item1));
-            Assert.True(graph.Remove(dep1));
+            Assert.That(graph.Remove(item1), Is.True);
+            Assert.That(graph.Remove(dep1), Is.True);
         }
     }
 }
