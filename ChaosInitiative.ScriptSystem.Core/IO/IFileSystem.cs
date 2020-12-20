@@ -27,11 +27,11 @@ namespace ChaosInitiative.ScriptSystem.Core.IO
         /// <summary>
         /// Enumerates the directories at the specified path.
         /// </summary>
-        IEnumerable<string> EnumerateDirectories(string path);
+        IEnumerable<string> GetDirectories(string path);
 
         /// <summary>
         /// Enumerates the files at the specified path.
         /// </summary>
-        IEnumerable<string> EnumerateFiles(string path);
+        IEnumerable<string> GetFiles(string path);
     }
 }

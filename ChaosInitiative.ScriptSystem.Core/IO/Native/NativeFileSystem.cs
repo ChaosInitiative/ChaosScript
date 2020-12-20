@@ -16,7 +16,7 @@ namespace ChaosInitiative.ScriptSystem.Core.IO.Native
             _root = Path.GetFullPath(root);
         }
 
-        private string ResolveFromRoot(string path)
+        private string GetPathFromRoot(string path)
         {
             var fullPath = Path.GetFullPath(Path.Combine(_root, path));
 
