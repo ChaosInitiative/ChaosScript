@@ -1,0 +1,46 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Serilog;
+
+namespace ChaosInitiative.ScriptSystem.Core.Modules
+{
+    /// <summary>
+    /// Loads modules from a filesystem path using C# IO APIs.
+    /// </summary>
+    internal class ScriptModuleRepositoryNative : IScriptModuleRepository
+    {
+        private DirectoryInfo _path;
+        private FileSystemWatcher _watcher;
+        public ScriptModuleRepositoryNative(string path)
+        {
+            _path = new DirectoryInfo(path);
+            if (!_path.Exists) throw new Exception($"The module directory at \"{path}\" does not exist!");
+        }
+
+        public async Task<IEnumerable<ScriptModule>> EnumerateModulesAsync()
+        {
+            var modules = new List<ScriptModule>();
+            foreach (var dir in _path.GetDirectories())
+            {
+                var infoPath = Path.Join(dir.FullName, "module.json");
+                if (!File.Exists(infoPath)) {
+                    Log.Warning("Module at \"{Path}\" did not contain a module.json, skipping.", dir.FullName);
+                    continue;
+                }
+
+                var text = await File.ReadAllTextAsync(infoPath);
+                var options = new JsonSerializerOptions() {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                var meta = JsonSerializer.Deserialize<ScriptModuleMetadata>(text, options);
+                modules.Add(new ScriptModule(dir.Name, meta));
+            }
+
+            return modules;
+        }
+    }
+}
