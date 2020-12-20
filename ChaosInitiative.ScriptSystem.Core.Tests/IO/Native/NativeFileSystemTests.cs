@@ -8,44 +8,110 @@ namespace ChaosInitiative.ScriptSystem.Core.Tests.IO.Native
 {
     public class NativeFileSystemTests
     {
-        private readonly NativeFileSystem _fileSystem;
-        public NativeFileSystemTests()
+        private string _rootPath;
+        private NativeFileSystem _fileSystem;
+        private const string TestFileName = "testfile.txt";
+        private const string InaccessibleFileName = "../inaccessible.txt";
+
+        [OneTimeSetUp]
+        public void Init()
         {
-            var root = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "../../../data/root"));
-            _fileSystem = new NativeFileSystem(root);
+            _rootPath = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "test_filesystem"));
+            Directory.CreateDirectory(_rootPath);
+            _fileSystem = new NativeFileSystem(_rootPath);
         }
 
-        [Fact]
-        public void TestOpen()
+        private void CreateTestFile()
         {
-            var file = _fileSystem.Open("testfile.txt", FileMode.Open, FileAccess.Read);
-            Assert.True(file != null);
+            File.WriteAllText(Path.Combine(_rootPath, TestFileName), "Test content");
+        }
+
+        private void DeleteTestFile()
+        {
+            File.Delete(Path.Combine(_rootPath, TestFileName));
+        }
+        
+        [Test]
+        public void TestOpenAccessibleFileThatExists()
+        {
+            CreateTestFile();
+            Assume.That(_fileSystem.Exists(TestFileName), Is.True);
+            var file = _fileSystem.Open(TestFileName, FileMode.Open, FileAccess.Read);
+            Assert.That(file, Is.Not.Null);
             file.Close();
-
-            var file2 = _fileSystem.Open("../inaccessible.txt", FileMode.Open, FileAccess.Read);
-            Assert.True(file2 == null);
+            DeleteTestFile();
         }
 
-        [Fact]
-        public void TestDelete()
+        [Test]
+        public void TestOpenAccessibleFileThatDoesntExistThrows()
+        {
+            Assume.That(_fileSystem.Exists(TestFileName), Is.False);
+            Assert.That(() => _fileSystem.Open(TestFileName, FileMode.Open, FileAccess.Read), Throws.TypeOf<ScriptFileSystemNotFoundException>());
+        }
+
+        [Test]
+        public void TestOpenInaccessibleFileThrows()
+        {
+            Assume.That(() => _fileSystem.Open(InaccessibleFileName, FileMode.Open, FileAccess.Read),
+                        Throws.TypeOf<ScriptFileSystemInaccessibleException>());
+        }
+
+        [Test]
+        public void TestDeleteAccessibleFile()
+        {
+            CreateTestFile();
+            Assume.That(_fileSystem.Exists(TestFileName), Is.True);
+            Assert.That(() => _fileSystem.Delete(TestFileName), Throws.Nothing);
+            Assert.That(_fileSystem.Exists(TestFileName), Is.False);
+        }
+
+        [Test]
+        public void TestDeleteAccessibleFileThatDoesNotExistThrows()
+        {
+            Assume.That(_fileSystem.Exists(TestFileName), Is.False);
+            Assert.That(() => _fileSystem.Delete(TestFileName), 
+                        Throws.TypeOf<ScriptFileSystemNotFoundException>());
+        }
+
+        [Test]
+        public void TestDeleteInaccessibleFileThrows()
+        {
+            Assume.That(() => _fileSystem.Delete(InaccessibleFileName), 
+                        Throws.TypeOf<ScriptFileSystemInaccessibleException>());
+        }
+
+        [Test]
+        public void TestExistsWhenFileExists()
+        {
+            CreateTestFile();
+            bool existsOnDisk = File.Exists(Path.Combine(_rootPath, TestFileName));
+            
+            Assume.That(existsOnDisk, Is.True);
+            bool existsInFileSystem = _fileSystem.Exists(TestFileName);
+            
+            Assert.That(existsOnDisk, Is.EqualTo(existsInFileSystem));
+            DeleteTestFile();
+        }
+
+        [Test]
+        public void TestExistsWhenFileDoesNotExist()
+        {
+            bool existsOnDisk = File.Exists(Path.Combine(_rootPath, TestFileName));
+            
+            Assume.That(existsOnDisk, Is.False);
+            bool existsInFileSystem = _fileSystem.Exists(TestFileName);
+            
+            Assert.That(existsOnDisk, Is.EqualTo(existsInFileSystem));
+        }
+
+        [Test]
+        public void TestGetDirectories()
         {
             
         }
 
-        [Fact]
-        public void TestExists()
-        {
-
-        }
-
-        [Fact]
-        public void TestEnumerateDirectories()
-        {
-            
-        }
-
-        [Fact]
-        public void TestEnumerateFiles()
+        [Test]
+        public void TestGetFiles()
         {
             
         }

@@ -1,11 +1,12 @@
 using System;
-using Xunit;
+using ChaosInitiative.ScriptSystem.Core.Utilities;
+using NUnit.Framework;
 
 namespace ChaosInitiative.ScriptSystem.Core.Tests.Modules
 {
     public class DependencyGraphTests
     {
-        [Fact]
+        [Test]
         public void TestDependents()
         {
             var graph = new DependencyGraph<Guid>();
@@ -15,7 +16,7 @@ namespace ChaosInitiative.ScriptSystem.Core.Tests.Modules
             graph.Add(item1, dep1);
 
             // we should contain all the dependencies now
-            Assert.True(graph.Contains(item1));
+            Assert.That(graph, Does.Contain(item1));
             Assert.Contains(dep1, graph.GetDependencies(item1));
             Assert.True(graph.GetDependencies(dep1).IsEmpty);
             Assert.True(graph.GetDependents(item1).IsEmpty);
