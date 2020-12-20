@@ -1,14 +1,12 @@
 using System;
 using Xunit;
 
-using ScriptSystem.Core.Modules.Dependencies;
+using ScriptSystem.Core.Utilities;
 
 namespace ScriptSystem.Core.Tests.Modules
 {
     public class DependencyGraphTests
     {
-        private class TestObject {}
-
         [Fact]
         public void TestDependents()
         {
@@ -20,10 +18,10 @@ namespace ScriptSystem.Core.Tests.Modules
 
             // we should contain all the dependencies now
             Assert.True(graph.Contains(item1));
-            Assert.True(graph.GetDependencies(item1).Contains(dep1));
+            Assert.Contains(dep1, graph.GetDependencies(item1));
             Assert.True(graph.GetDependencies(dep1).IsEmpty);
             Assert.True(graph.GetDependents(item1).IsEmpty);
-            Assert.True(graph.GetDependents(dep1).Contains(item1));
+            Assert.Contains(item1, graph.GetDependents(dep1));
 
             // removing should fail with dependencies still in place
             Assert.False(graph.Remove(dep1));

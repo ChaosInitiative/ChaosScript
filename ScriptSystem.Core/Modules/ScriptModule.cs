@@ -24,21 +24,15 @@ namespace ScriptSystem.Core.Modules
         public readonly Guid Id;
 
         /// <summary>
-        /// Whether this module is in the process of reloading
-        /// and changes have not yet been applied to the runtime instance
-        /// </summary>
-        public bool Dirty { get; set; }
-
-        /// <summary>
-        /// Modules that depend on this module.
-        /// </summary>
-        public IList<ScriptModule> Dependents { get; set; }
-            = new List<ScriptModule>();
-
-        /// <summary>
         /// Metadata about the module.
         /// </summary>
         public ScriptModuleMetadata Metadata { get; private set; }
+
+        /// <summary>
+        /// The current load state of this module (compiling, loading, etc)
+        /// </summary>
+        public ScriptModuleLoadState LoadState { get; set; }
+            = ScriptModuleLoadState.None;
 
         /// <summary>
         /// Stored runtime state.
@@ -52,6 +46,11 @@ namespace ScriptSystem.Core.Modules
         internal IList<SourceFile> Sources { get; private set; }
             = new List<SourceFile>();
 
+        /// <summary>
+        /// The compiled code of this module. Not guaranteed to match that of the runtime state's.
+        /// </summary>
+        internal byte[] IL { get; set; }
+
         public ScriptModule(string name, ScriptModuleMetadata metadata)
         {
             Name = name;
@@ -63,17 +62,6 @@ namespace ScriptSystem.Core.Modules
         {
             var str = Id.ToString().Replace("-", String.Empty).ToUpper();
             return $"ScriptSystem.DynamicAssemblies.{str}";
-        }
-
-        /// <summary>
-        /// Marks this module and all dependents as dirty.
-        /// </summary>
-        public void MarkDirty()
-        {
-            foreach (var module in Dependents)
-                module.MarkDirty();
-
-            Dirty = true;
         }
     }
 }

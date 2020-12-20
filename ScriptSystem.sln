@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptSystem.Core", "Script
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptSystem.Core.Tests", "ScriptSystem.Core.Tests\ScriptSystem.Core.Tests.csproj", "{9F4AA31F-1932-457A-9EFB-566715F43278}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptSystem.RuntimeTest", "ScriptSystem.RuntimeTest\ScriptSystem.RuntimeTest.csproj", "{5D310595-EB66-4A19-8C68-0223A0C1A1B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{9F4AA31F-1932-457A-9EFB-566715F43278}.Release|x64.Build.0 = Release|Any CPU
 		{9F4AA31F-1932-457A-9EFB-566715F43278}.Release|x86.ActiveCfg = Release|Any CPU
 		{9F4AA31F-1932-457A-9EFB-566715F43278}.Release|x86.Build.0 = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|x64.Build.0 = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|x64.ActiveCfg = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|x64.Build.0 = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{5D310595-EB66-4A19-8C68-0223A0C1A1B9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

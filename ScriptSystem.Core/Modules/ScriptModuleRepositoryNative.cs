@@ -13,6 +13,7 @@ namespace ScriptSystem.Core.Modules
     internal class ScriptModuleRepositoryNative : IScriptModuleRepository
     {
         private DirectoryInfo _path;
+        private FileSystemWatcher _watcher;
         public ScriptModuleRepositoryNative(string path)
         {
             _path = new DirectoryInfo(path);
@@ -31,8 +32,11 @@ namespace ScriptSystem.Core.Modules
                 }
 
                 var text = await File.ReadAllTextAsync(infoPath);
-                var meta = JsonSerializer.Deserialize<ScriptModuleMetadata>(text);
+                var options = new JsonSerializerOptions() {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
 
+                var meta = JsonSerializer.Deserialize<ScriptModuleMetadata>(text, options);
                 modules.Add(new ScriptModule(dir.Name, meta));
             }
 
