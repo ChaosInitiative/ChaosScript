@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Source.Core</RootNamespace>
+    </PropertyGroup>
+    
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(OS)'=='Unix'">
+        <Exec Command="cp $(ProjectDir)../../game/bin/linux64/ChaosScriptNativeBindings.* $(ProjectDir)../External/" />
+    </Target>
+    
+    <ItemGroup>
+        <Reference Include="ChaosScriptNativeBindings">
+            <HintPath>..\External\ChaosScriptNativeBindings.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    
+</Project>
