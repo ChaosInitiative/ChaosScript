@@ -12,4 +12,18 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'=='Unix'">
+      <HintPath>..\External\Linux\ChaosScriptNativeBindings.dll</HintPath>
+    </Reference>
+
+    <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'!='Unix'">
+      <HintPath>..\External\Windows\ChaosScriptNativeBindings.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScriptSystem.Source\ScriptSystem.Source.csproj" />
+  </ItemGroup>
+  
 </Project>
