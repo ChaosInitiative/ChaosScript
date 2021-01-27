@@ -28,6 +28,7 @@ namespace ScriptSystem.Source
         public void MsgC(Color color, String message)
         {
             Logging.ConColorMsg(color, message);
+            
         }
     }
 }

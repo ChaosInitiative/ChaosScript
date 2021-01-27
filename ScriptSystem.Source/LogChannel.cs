@@ -16,7 +16,7 @@ namespace ScriptSystem.Source
             _ChannelName = channelName;
             _ChannelSeverity = severity;
             _ChannelColor = color;
-
+            
             ChannelId = Logging.RegisterLoggingChannel(channelName, severity, color);
         }
 

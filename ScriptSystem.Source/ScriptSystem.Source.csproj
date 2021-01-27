@@ -6,12 +6,16 @@
     </PropertyGroup>
     
     <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(OS)'=='Unix'">
-        <Exec Command="cp $(ProjectDir)../../game/bin/linux64/ChaosScriptNativeBindings.* $(ProjectDir)../External/" />
+        <Exec Command="cp $(ProjectDir)../../game/bin/linux64/ChaosScriptNativeBindings.* $(ProjectDir)../External/Linux/" />
     </Target>
     
     <ItemGroup>
-        <Reference Include="ChaosScriptNativeBindings">
-            <HintPath>..\External\ChaosScriptNativeBindings.dll</HintPath>
+        <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'=='Unix'">
+            <HintPath>..\External\Linux\ChaosScriptNativeBindings.dll</HintPath>
+        </Reference>
+
+        <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'!='Unix'">
+            <HintPath>..\External\Windows\ChaosScriptNativeBindings.dll</HintPath>
         </Reference>
     </ItemGroup>
     
