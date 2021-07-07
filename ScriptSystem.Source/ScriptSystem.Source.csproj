@@ -4,18 +4,16 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>Source.Core</RootNamespace>
     </PropertyGroup>
-    
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(OS)'=='Unix'">
-        <Exec Command="cp $(ProjectDir)../../game/bin/linux64/ChaosScriptNativeBindings.* $(ProjectDir)../External/Linux/" />
-    </Target>
-    
+	
+	<!-- jjl77: WOW this is all really really awful. Rework this stuff eventually! -->
+	
     <ItemGroup>
         <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'=='Unix'">
-            <HintPath>..\External\Linux\ChaosScriptNativeBindings.dll</HintPath>
+            <HintPath>..\..\game\bin\managed\linux64\ChaosScriptNativeBindings.dll</HintPath>
         </Reference>
 
         <Reference Include="ChaosScriptNativeBindings" Condition="'$(OS)'!='Unix'">
-            <HintPath>..\External\Windows\ChaosScriptNativeBindings.dll</HintPath>
+            <HintPath>..\..\game\bin\managed\win64\ChaosScriptNativeBindings.dll</HintPath>
         </Reference>
     </ItemGroup>
     
